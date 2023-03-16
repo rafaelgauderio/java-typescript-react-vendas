@@ -1,0 +1,99 @@
+.vendas-card {
+    background-color: #283142;
+    border-radius: 10px;
+    padding: 30px 10px;
+  }  
+  
+  .vendas-dashboard-title {
+    display: flex;
+    justify-content: center;
+    color: dodgerblue;
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  
+  .vendas-form-control-container {
+    margin-bottom: 16px;
+    max-width: 300px;
+  }
+  
+  .vendas-form-control {
+    width: 100%;
+    height: 46px;
+    background-color: #1b2531;
+    border: 1px solid #384459;
+    border-radius: 5px;
+    color: #9aaace;
+    padding: 0 20px;
+    font-size: 20px;
+  }
+  
+  .vendas-dashboard-table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+  
+  .vendas-dashboard-table thead {
+    height: 56px;
+    font-size: 18px;
+    color: #e9e9e9;
+    font-weight: 700;
+  }
+  
+  .vendas-dashboard-table tbody {
+    font-size: 16px;
+    font-weight: 400;
+    color: #cfcfcf;
+    text-align: center;
+  }
+  
+  .vendas-dashboard-table tbody tr {
+    height: 74px;
+    border-top: 1px solid #5f6e82;
+  }
+  
+  .vendas-dashboard-table tbody tr:hover > td {
+    background-color: #384459;
+  }
+  
+  .vendas-dashboard-table tbody tr:nth-child(odd) {
+    background-color: #242c3b;
+  }
+  
+  .vendas-red-button-container {
+      display: flex;
+      justify-content: center;
+  }
+  
+  .breakpoint-576 {
+      display: none;
+  }
+  
+  .breakpoint-992 {
+      display: none;
+  }
+  
+  @media (min-width: 576px) {
+      .breakpoint-576 {          
+          display: table-cell;
+      }
+  
+      .vendas-card {
+          padding: 30px;
+      }
+  
+      .vendas-dashboard-table tbody tr {
+          height: 55px;
+      }
+  
+      .vendas-dashboard-table tbody {
+          font-size: 18px;
+      }
+  }
+  
+  @media (min-width: 992px) {
+      .breakpoint-992 {
+          display: table-cell;
+      }
+  }
