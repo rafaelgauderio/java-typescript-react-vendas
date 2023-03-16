@@ -2,7 +2,7 @@
 function App() {
 
   return (
-    <h2>Projeto inicial de dashboard de vendas</h2>
+    <h1>Projeto inicial de dashboard de vendas</h1>
   )
   
 }
