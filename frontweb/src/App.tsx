@@ -6,6 +6,9 @@ function App() {
     <>
     <h1>Projeto inicial de dashboard de vendas</h1>
     <NotificationButton />
+    <NotificationButton />
+    <NotificationButton />
+    <NotificationButton />
     </>
   )
   
