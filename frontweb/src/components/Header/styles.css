@@ -34,7 +34,7 @@ header {
 
   .vendas-logo-container p:hover {
         transform: scale(1.1);
-        background-color: #102349;
-        border: 1px solid #ff6b72;
+        background-color: dodgerblue;
+        
   }
   

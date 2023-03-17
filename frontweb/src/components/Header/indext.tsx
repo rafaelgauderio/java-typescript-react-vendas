@@ -8,9 +8,8 @@ function Header () {
     <div className="vendas-logo-container">
         <img src={logoHeader} alt="vendas" />
         <h1>Dashboard de Vendas</h1>
-        <p>
-          Desenvolvido por 
-          <a href="https://github.com/rafaelgauderio">@rafaeldeluca</a>
+        <p>           
+          <a href="https://github.com/rafaelgauderio" target="_blank"> Desenvolvido por@rafaeldeluca</a>
         </p>
     </div>
 </header>
