@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 import DatePiacker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
+// o resultado de um component react visual na tela é resultado de dados que estão dentro do componente
+// para mudar o visual é necessário alterar os dados do componente
+// assim o próprio engine do react vê os dados alterados e atualiza o visual do componente na tela
+
+// useState. Ao alterar o estado do componente vai ser alterado o visual no frontEnd
+
 function SalesCard() {
+
+    let lastYear = new Date(new Date().setDate(new Date().getDate() - 365));
+    let today = new Date();
+
+    const [dataMinima, setDataMinima] = useState(new Date(lastYear));
+    const [dataMaxima, setDataMaxima] = useState(new Date(today));
+
     return (
         <div className="vendas-card">
-            
+
             <div>
                 <div className="vendas-form-control-container">
-                <h2 className="vendas-dashboard-title">Vendas por data</h2>
-                    <DatePiacker 
-                    selected={new Date()}
-                    onChange={(date: Date) => {}}
-                    dateFormat="dd/MM/yyyy"
-                    className="vendas-form-control"
+                    <h2 className="vendas-dashboard-title">Vendas por data</h2>
+                    <DatePiacker
+                        selected={dataMinima}
+                        onChange={(parameterMinDate: Date) => setDataMinima(parameterMinDate)}
+                        dateFormat="dd/MM/yyyy"
+                        className="vendas-form-control"
                     />
                 </div>
                 <div className="vendas-form-control-container">
-                    <DatePiacker 
-                    selected={new Date()}
-                    onChange={(date: Date) => {}}
-                    dateFormat="dd/MM/yyyy"
-                    className="vendas-form-control"
+                    <DatePiacker
+                        selected={dataMaxima}
+                        onChange={(parameterMaxDate: Date) => setDataMaxima(parameterMaxDate)}
+                        dateFormat="dd/MM/yyyy"
+                        className="vendas-form-control"
                     />
                 </div>
             </div>
