@@ -3,8 +3,8 @@ package com.rafaeldeluca.vendas.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,21 +17,18 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 // para poder liberar esse acesso é preciso fazer a configuração de cors
 
 @EnableWebSecurity
-@AutoConfiguration
+@Configuration
 public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain filtroDeCadeia(HttpSecurity httpSecurity) throws Exception {
 		
-		try {
+	
 			httpSecurity.cors().and().csrf().disable();
 			httpSecurity.headers().frameOptions().disable();
 			httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			httpSecurity.authorizeHttpRequests((authentication) -> authentication.anyRequest().permitAll());
-		} catch (Exception erro) {
-			
-			erro.getMessage();
-		}
+			httpSecurity.authorizeHttpRequests((authentication) -> authentication.anyRequest().permitAll());			
+		
 		return httpSecurity.build();
 		
 	}
@@ -44,7 +41,7 @@ public class SecurityConfig {
 		metodosPermitidos.add("POST");
 		metodosPermitidos.add("PUT");
 		metodosPermitidos.add("DELETE");
-		metodosPermitidos.add("OPTIONS");
+		metodosPermitidos.add("OPTIONS");		
 		configuracaoDeCors.setAllowedMethods(metodosPermitidos);
 		
 		final UrlBasedCorsConfigurationSource controlador = new UrlBasedCorsConfigurationSource();
