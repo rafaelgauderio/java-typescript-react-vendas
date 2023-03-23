@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rafaeldeluca.vendas.entities.Sale;
@@ -22,9 +23,13 @@ public class SaleController {
 	
 	
 	// Por default o pageable retorna os 20 primeiros elementos senão colocar nenhum parametro 
+	// controlador recebe as datas do front end como string. 
 	@GetMapping
-	public Page<Sale> findAllSales (Pageable pageableRequest) {
-		Page salesList = saleService.findSales(pageableRequest);
+	public Page<Sale> findAllSales (
+			@RequestParam(value="minDate", defaultValue="") String minDate,
+			@RequestParam(value="maxDate", defaultValue="") String maxDate,
+			Pageable pageableRequest) {
+		Page salesList = saleService.findSales(minDate, maxDate, pageableRequest);
 		return salesList;		
 		
 	}

@@ -1,7 +1,8 @@
 package com.rafaeldeluca.vendas.services;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,19 +14,35 @@ import com.rafaeldeluca.vendas.entities.Sale;
 import com.rafaeldeluca.vendas.repositories.SaleRepository;
 
 @Service
-public class SaleService  {
-	
+public class SaleService {
+
 	@Autowired
 	private SaleRepository saleRepository;
-	
-	@Transactional(readOnly=true)
-	public Page<Sale> findSales (Pageable pageableRequest) {
+
+	// service converta as data recebidas como string do controlador em Date
+	@Transactional(readOnly = true)
+	public Page<Sale> findSales(String minDate, String maxDate, Pageable pageableRequest) {
+
+		// caso não seja informado os parametros data mínima e máxima a data mínima será a data de 
+		// 3 anos atrás e a data máxima será hoje
 		
-		Page<Sale> vendas;  
-		vendas = saleRepository.findAll(pageableRequest);
+		LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+				
+		LocalDate maximumDate;
+		
+		LocalDate minimumDate = minDate.equals("") ? today.minusYears(3) : LocalDate.parse(minDate);
+
+		if (minDate.equals("")) {
+			maximumDate = today;
+		} else {
+			maximumDate = LocalDate.parse(maxDate);
+		}
+
+		Page<Sale> vendas;
+		vendas = saleRepository.findAllSales(minimumDate, maximumDate, pageableRequest);
 		return vendas;
-		//return saleRepository.findAll();
-		
+		// return saleRepository.findAll();
+
 	}
 
 }
