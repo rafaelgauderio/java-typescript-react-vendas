@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +19,10 @@ public class SaleService  {
 	private SaleRepository saleRepository;
 	
 	@Transactional(readOnly=true)
-	public List<Sale> findSales () {
+	public Page<Sale> findSales (Pageable pageableRequest) {
 		
-		List<Sale> vendas = new ArrayList<Sale> ();
-		vendas = saleRepository.findAll();
+		Page<Sale> vendas;  
+		vendas = saleRepository.findAll(pageableRequest);
 		return vendas;
 		//return saleRepository.findAll();
 		
