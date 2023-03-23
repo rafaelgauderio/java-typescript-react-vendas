@@ -1,8 +1,11 @@
 package com.rafaeldeluca.vendas.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.rafaeldeluca.vendas.entities.Sale;
+import com.rafaeldeluca.vendas.repositories.SaleRepository;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -23,16 +26,31 @@ public class SmsService {
 
 	@Value("${twilio.phone.to}")
 	private String twilioPhoneTo;
+	
+	@Autowired
+	private SaleRepository saleRepository;
 
-	public void sendSmsToSeller() {
+	public void sendSmsToSeller(Long saleId) {
+		
+				
+		// buscar um objeto venda do banco de dados
+		Sale sale = saleRepository.findById(saleId).get();
+		int month = sale.getDate().getMonthValue();
+		int year = sale.getDate().getYear();
+		
+		String messageToSeller =  "Vendedor " + sale.getSellerName() + " atingiu a meta no período "
+				+ month + "/" + year + ".\n"
+						+ "Valor das vendas: " + String.format("R$ %.2f",sale.getTotal()); 
+				
+		
 
 		Twilio.init(twilioSid, twilioKey);
 
 		PhoneNumber to = new PhoneNumber(twilioPhoneTo);
 		PhoneNumber from = new PhoneNumber(twilioPhoneFrom);
 
-		Message message = Message.creator(to, from, "Mensagem de teste").create();
+		Message finalMessage = Message.creator(to, from, messageToSeller).create();
 
-		System.out.println(message.getSid());
+		System.out.println(finalMessage.getSid());
 	}
 }
