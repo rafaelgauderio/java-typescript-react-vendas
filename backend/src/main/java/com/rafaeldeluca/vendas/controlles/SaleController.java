@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rafaeldeluca.vendas.entities.Sale;
 import com.rafaeldeluca.vendas.services.SaleService;
+import com.rafaeldeluca.vendas.services.SmsService;
 
 // Controlador é quem implenta a API
 // controlador disponibiliza os endpoints necessários para o front-end acessar o backend
@@ -20,6 +21,9 @@ public class SaleController {
 	
 	@Autowired
 	private SaleService saleService;
+	
+	@Autowired
+	private SmsService smsService;
 	
 	
 	// Por default o pageable retorna os 20 primeiros elementos senão colocar nenhum parametro 
@@ -32,6 +36,12 @@ public class SaleController {
 		Page salesList = saleService.findSales(minDate, maxDate, pageableRequest);
 		return salesList;		
 		
+	}
+	
+	// função para enviar sms
+	@GetMapping("/notification")
+	public void SmsNofification() {
+		smsService.sendSmsToSeller();
 	}
 
 }
