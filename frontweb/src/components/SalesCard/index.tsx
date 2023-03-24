@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 import DatePiacker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
 
 // o resultado de um component react visual na tela é resultado de dados que estão dentro do componente
 // para mudar o visual é necessário alterar os dados do componente
@@ -17,6 +18,15 @@ function SalesCard() {
 
     const [dataMinima, setDataMinima] = useState(new Date(lastYear));
     const [dataMaxima, setDataMaxima] = useState(new Date(today));
+
+    useEffect(() =>{
+        // fazendo requisição no backend com axios
+        // a requisição retorna um objeto do tipo Promise
+
+        axios.get("http://localhost:8080/sales").then(requestResponse => {
+            console.log(requestResponse.data);
+        })
+    }, []);
 
     return (
         <div className="vendas-card">
