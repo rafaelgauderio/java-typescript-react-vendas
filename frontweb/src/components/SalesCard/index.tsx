@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NotificationButton from '../NotificationButton';
 import './styles.css';
 import DatePiacker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
+import { BASE_URL } from '../../utils/request';
+import { Sale } from '../../models/sale';
 
 // o resultado de um component react visual na tela é resultado de dados que estão dentro do componente
 // para mudar o visual é necessário alterar os dados do componente
@@ -17,6 +20,21 @@ function SalesCard() {
 
     const [dataMinima, setDataMinima] = useState(new Date(lastYear));
     const [dataMaxima, setDataMaxima] = useState(new Date(today));
+
+    // o type do useState vai ser um lista de Sale e o valor inicial um lista empty.
+    const [sales, setSales] = useState<Sale[]>([]);
+
+    useEffect(() => {
+        // fazendo requisição no backend com axios
+        // a requisição retorna um objeto do tipo Promise
+
+        axios.get(`${BASE_URL}/sales`)
+            .then(requestResponse => {
+                //console.log("testar requisicao")
+                //console.log(requestResponse.data);
+                setSales(requestResponse.data.content);
+            });
+    }, []);
 
     return (
         <div className="vendas-card">
@@ -55,45 +73,23 @@ function SalesCard() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="breakpoint-992">#341</td>
-                            <td className="breakpoint-576">08/07/2022</td>
-                            <td>Rafael</td>
-                            <td className="breakpoint-992">15</td>
-                            <td className="breakpoint-992">11</td>
-                            <td>R$ 54300.00</td>
-                            <td>
-                                <div className="vendas-red-button-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="breakpoint-992">#341</td>
-                            <td className="breakpoint-576">08/07/2022</td>
-                            <td>Luca</td>
-                            <td className="breakpoint-992">15</td>
-                            <td className="breakpoint-992">11</td>
-                            <td>R$ 14700.00</td>
-                            <td>
-                                <div className="vendas-red-button-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="breakpoint-992">#341</td>
-                            <td className="breakpoint-576">08/07/2022</td>
-                            <td>Atena</td>
-                            <td className="breakpoint-992">15</td>
-                            <td className="breakpoint-992">11</td>
-                            <td>R$ 12300.00</td>
-                            <td>
-                                <div className="vendas-red-button-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
+                        {sales.map(itemDasVendas => {
+                            return (
+                                <tr key={itemDasVendas.id}>
+                                    <td className="breakpoint-992">{itemDasVendas.id}</td>
+                                    <td className="breakpoint-576">{new Date(itemDasVendas.date).toLocaleDateString()}</td>
+                                    <td>{itemDasVendas.sellerName}</td>
+                                    <td className="breakpoint-992">{itemDasVendas.visited}</td>
+                                    <td className="breakpoint-992">{itemDasVendas.sales}</td>
+                                    <td>R$ {itemDasVendas.total.toFixed(2)}</td>
+                                    <td>
+                                        <div className="vendas-red-button-container">
+                                            <NotificationButton />
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
 
                 </table>

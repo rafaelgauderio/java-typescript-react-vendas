@@ -21,7 +21,7 @@ public interface SaleRepository extends JpaRepository<Sale,Long> {
 			+ "FROM Sale objeto "
 			+ "WHERE objeto.date "
 			+ "BETWEEN :minimumDate AND :maximumDate "
-			+ "ORDER BY objeto.total DESC")
+			+ "ORDER BY objeto.total ASC")
 	Page<Sale> findAllSales(LocalDate minimumDate, LocalDate maximumDate, Pageable pageableRequest);	
 	
 
