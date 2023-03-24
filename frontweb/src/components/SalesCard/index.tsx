@@ -12,10 +12,9 @@ import { Sale } from '../../models/sale';
 // assim o próprio engine do react vê os dados alterados e atualiza o visual do componente na tela
 
 // useState. Ao alterar o estado do componente vai ser alterado o visual no frontEnd
-
 function SalesCard() {
 
-    let lastYear = new Date(new Date().setDate(new Date().getDate() - 365));
+    let lastYear = new Date(new Date().setDate(new Date().getDate() - 730));
     let today = new Date();
 
     const [dataMinima, setDataMinima] = useState(new Date(lastYear));
@@ -25,16 +24,21 @@ function SalesCard() {
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
+
+        const minimuDate = dataMinima.toISOString().slice(0, 10);
+        const maximumDate = dataMaxima.toISOString().slice(0,10);
+
+
         // fazendo requisição no backend com axios
         // a requisição retorna um objeto do tipo Promise
 
-        axios.get(`${BASE_URL}/sales`)
+        axios.get(`${BASE_URL}/sales?minDate=${minimuDate}&maxDate=${maximumDate}`)
             .then(requestResponse => {
                 //console.log("testar requisicao")
                 //console.log(requestResponse.data);
                 setSales(requestResponse.data.content);
             });
-    }, []);
+    }, [dataMinima, dataMaxima]);
 
     return (
         <div className="vendas-card">
